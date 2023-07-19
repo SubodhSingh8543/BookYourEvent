@@ -7,9 +7,6 @@ import bcrypt
 import jwt
 from datetime import datetime, timedelta
 from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import serialization, hashes
-from cryptography.hazmat.primitives.asymmetric import rsa
 
 app = Flask(__name__)
 CORS(app)
@@ -138,11 +135,11 @@ def get_all_users():
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    username = data['name']
+    username = data['email']
     password = data['password']
 
     # Retrieve the user document from the database based on the provided username
-    user = userCollection.find_one({'name': username})
+    user = userCollection.find_one({'email': username})
     
     if user and bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
         # If the username and password are valid, generate a JWT token
@@ -151,17 +148,6 @@ def login():
         return jsonify({'access_token': access_token})
     
     return jsonify({'message': 'Invalid username or password'}), 401
-
-# Example protected route
-# @app.route('/protected', methods=['GET'])
-# @jwt_required()
-# def protected_route():
-#     current_user_id = get_jwt_identity()
-
-#     return jsonify({'message': f'Hello, protected user with ID: {current_user_id}!'})
-
-
-
 
 if __name__ == '__main__':
     app.run(port=11000)
