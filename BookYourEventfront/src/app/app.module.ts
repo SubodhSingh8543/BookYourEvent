@@ -41,7 +41,11 @@ import { SignupComponent } from './signup/signup.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Import BrowserAnimationsModule
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { LoginComponent } from './login/login.component'; // Import MatSnackBarModule
+import { LoginComponent } from './login/login.component';
+import { UserListComponent } from './user-list/user-list.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { UpdateUserDialogComponent } from './update-user-dialog/update-user-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -49,6 +53,9 @@ import { LoginComponent } from './login/login.component'; // Import MatSnackBarM
     HomePageComponent,
     SignupComponent,
     LoginComponent,
+    UserListComponent,
+    UserListComponent,
+    UpdateUserDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +64,7 @@ import { LoginComponent } from './login/login.component'; // Import MatSnackBarM
     HttpClientModule, // Add HttpClientModule here
     BrowserAnimationsModule, // Add BrowserAnimationsModule here
     MatSnackBarModule, // Add MatSnackBarModule here
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
