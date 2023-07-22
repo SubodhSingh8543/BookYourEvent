@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
 from dotenv import load_dotenv
 import os
+from pymongo import ASCENDING, DESCENDING
 
 app = Flask(__name__)
 CORS(app)
@@ -28,6 +29,147 @@ client = MongoClient(mongo_uri)  # Use the correct variable here
 db = client['mydatabase']
 collection = db['movies']
 userCollection = db['users']
+showsCollection = db['shows']
+
+
+# Route for adding show
+@app.route('/shows', methods=['POST'])
+# @jwt_required()
+def add_show():
+    data = request.get_json()
+    document = data
+
+    result = showsCollection.insert_one(document)
+
+    return jsonify({'id': str(result.inserted_id)})
+
+# Assuming you have imported the required modules and initialized the app and database connection as shown before
+# movie_id, category, sort_by_price, and sort_by_rating 
+@app.route('/shows', methods=['GET'])
+# @jwt_required()
+def get_all_shows():
+    # Get the query parameters for search and sorting
+    movie_id = request.args.get('movie_id', None)
+    category = request.args.get('category', None)
+    sort_by_price = request.args.get('sort_by_price', None)
+    sort_by_rating = request.args.get('sort_by_rating', None)
+
+    # Create a filter dictionary based on provided filter parameters
+    filter_dict = {}
+    if movie_id:
+        filter_dict['movie_id'] = movie_id
+    if category:
+        filter_dict['category'] = category
+
+    # Query the database to retrieve shows based on the filter
+    shows = showsCollection.find(filter_dict)
+
+    # Sort shows by ticket price if 'sort_by_price' parameter is provided
+    if sort_by_price:
+        sort_order = ASCENDING if sort_by_price.lower() == 'asc' else DESCENDING
+        shows = shows.sort('ticket_price', sort_order)
+
+    # Sort shows by rating if 'sort_by_rating' parameter is provided
+    if sort_by_rating:
+        sort_order = ASCENDING if sort_by_rating.lower() == 'asc' else DESCENDING
+        shows = shows.sort('rating', sort_order)
+
+    # Convert data to a list of dictionaries
+    shows_list = []
+    for show in shows:
+        shows_list.append({
+            "id": str(show['_id']),
+            'movie_id': str(show['movie_id']),
+            'venue': show.get('venue', None),
+            'date': show.get('date', None),
+            'start_time': show.get('start_time', None),
+            'end_time': show.get('end_time', None),
+            'category': show.get('category', None),
+            'available_seats': show.get('available_seats', None),
+            'ticket_price': show.get('ticket_price', None),
+            'rating': show.get('rating', None)
+            # Add more fields as needed
+        })
+
+    return jsonify(shows_list)
+
+# Route for retrieving a specific show by id
+@app.route('/shows/<string:show_id>', methods=['GET'])
+# @jwt_required()
+def get_show_by_id(show_id):
+    show = showsCollection.find_one({'_id': ObjectId(show_id)})
+
+    if not show:
+        return jsonify({'message': 'No show found with the provided ID'}), 404
+
+    # Convert data to a dictionary
+    show_data = {
+        "id": str(show['_id']),
+        'movie_id': str(show['movie_id']),
+        'venue': show.get('venue', None),
+        'date': show.get('date', None),
+        'start_time': show.get('start_time', None),
+        'end_time': show.get('end_time', None),
+        'category': show.get('category', None),
+        'available_seats': show.get('available_seats', None),
+        'ticket_price': show.get('ticket_price', None),
+        'rating': show.get('rating', None)
+        # Add more fields as needed
+    }
+
+    return jsonify(show_data)
+
+
+
+# Route for updating a specific show by id
+@app.route('/shows/<string:show_id>', methods=['PUT'])
+# @jwt_required()
+def update_show(show_id):
+    data = request.get_json()
+    show = showsCollection.find_one({'_id': ObjectId(show_id)})
+
+    if not show:
+        return jsonify({'message': 'No show found with the provided ID'}), 404
+
+    # Create a dictionary of the fields to be updated based on the provided data
+    update_data = {}
+    if 'venue' in data:
+        update_data['venue'] = data['venue']
+    if 'date' in data:
+        update_data['date'] = data['date']
+    if 'start_time' in data:
+        update_data['start_time'] = data['start_time']
+    if 'end_time' in data:
+        update_data['end_time'] = data['end_time']
+    if 'category' in data:
+        update_data['category'] = data['category']
+    if 'available_seats' in data:
+        update_data['available_seats'] = data['available_seats']
+    if 'ticket_price' in data:
+        update_data['ticket_price'] = data['ticket_price']
+    if 'rating' in data:
+        update_data['rating'] = data['rating']
+
+    # Update the show data in the database
+    result = showsCollection.update_one({'_id': ObjectId(show_id)}, {'$set': update_data})
+
+    if result.modified_count > 0:
+        return jsonify({'message': 'Show data updated successfully'})
+    else:
+        return jsonify({'message': 'No changes made to show data'}), 200
+
+# Route for deleting a specific show by id
+@app.route('/shows/<string:show_id>', methods=['DELETE'])
+# @jwt_required()
+def delete_show(show_id):
+    # Delete the show with the given ID from the database
+    result = showsCollection.delete_one({'_id': ObjectId(show_id)})
+    
+    if result.deleted_count > 0:
+        return jsonify({'message': 'Show data deleted successfully'})
+    else:
+        return jsonify({'message': 'No show found with the provided ID'}), 404
+
 
 # Route for retrieving data with pagination and filtering
 @app.route('/movies', methods=['GET'])

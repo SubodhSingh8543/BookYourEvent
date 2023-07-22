@@ -1,0 +1,45 @@
+<div class="navbar-container">
+    <!-- First Navbar -->
+    <nav class="search-nav">
+      <div class="main_div">
+        <div class="logo">
+          <span>BookYourEvent</span>
+        </div>
+        <div class="search-box">
+          <!-- Add your search input element here -->
+          <input type="text" placeholder="Search...">
+        </div>
+        <div class="auth-buttons">
+          <!-- Add your login and signup buttons here -->
+          <!-- Example: -->
+          <a href="login"><button class="login-button">Log In</button></a>
+         <a href="signup"><button class="signup-button">Sign Up</button></a>
+        </div>
+        <div class="hamburger-menu" (click)="toggleHamburgerMenu()">
+          <!-- Hamburger menu icon -->
+          <div class="hamburger-icon">
+            <!-- Add your hamburger menu icon here -->
+            <!-- Example: Using Font Awesome -->
+            <i class="fa fa-bars"></i>
+          </div>
+          <!-- Hamburger menu content -->
+          <div class="hamburger-content" *ngIf="isHamburgerMenuOpen">
+          </div>
+        </div>
+      </div>
+    </nav>
+  
+    <!-- Second Navbar (Entities Navbar) -->
+    <nav class="entity-nav" *ngIf="showEntityNavbar">
+      <div class="nav-items">
+        <a routerLink="/movies" routerLinkActive="active">Movies</a>
+        <a routerLink="/myBookings" routerLinkActive="active">List your show</a>
+        <a routerLink="/account" routerLinkActive="active">Account</a>
+        <a routerLink="/offers" routerLinkActive="active">Offers</a>
+        <a routerLink="/help" routerLinkActive="active">Customer support</a>
+      </div>
+    </nav>
+  </div>
+  
+  <!-- Rest of the content for HomePageComponent -->
+  <!-- ... -->

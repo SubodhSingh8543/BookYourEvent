@@ -45,6 +45,13 @@ import { LoginComponent } from './login/login.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UpdateUserDialogComponent } from './update-user-dialog/update-user-dialog.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { FooterComponent } from './footer/footer.component';
+import { BackToTopComponent } from './back-to-top/back-to-top.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
+import { MoviesComponent } from './movies/movies.component';
+import { CreateShowsComponent } from './create-shows/create-shows.component';
+import { UpdateShowDialogComponent } from './update-show-dialog/update-show-dialog.component';
 
 
 @NgModule({
@@ -55,7 +62,15 @@ import { UpdateUserDialogComponent } from './update-user-dialog/update-user-dial
     LoginComponent,
     UserListComponent,
     UserListComponent,
-    UpdateUserDialogComponent
+    UpdateUserDialogComponent,
+    NavbarComponent,
+    FooterComponent,
+    BackToTopComponent,
+    ChatbotComponent,
+    MoviesComponent,
+    CreateShowsComponent,
+    CreateShowsComponent,
+    UpdateShowDialogComponent
   ],
   imports: [
     BrowserModule,
