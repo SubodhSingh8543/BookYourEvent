@@ -18,10 +18,7 @@ export class UpdateUserDialogComponent implements OnInit {
   };
   // updatedUser: User;
 
-  constructor(
-    public dialogRef: MatDialogRef<UpdateUserDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: User
-  ) {}
+  constructor(public dialogRef: MatDialogRef<UpdateUserDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: User) {}
 
   ngOnInit(): void {
     // Make a deep copy of the data object to avoid modifying the original data
