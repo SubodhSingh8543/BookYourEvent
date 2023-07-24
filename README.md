@@ -2,10 +2,7 @@
 
 Welcome to BookYourEvent, where your extraordinary experiences begin! Immerse yourself in a world of seamless entertainment as you explore and book tickets to a myriad of events. From thrilling movies, enchanting concerts, adrenaline-pumping sports events, to mesmerizing theatrical performances, your entertainment journey awaits at your fingertips. Enjoy the ease of online ticketing and unlock a treasure trove of unforgettable memories with BookYourEvent.
 
-## Deployed App
-
-<!-- Add the link to your deployed application here -->
-https://deployed-site.whatever
+## [Deployed link of BookYourEvent](https://book-your-eventfront.vercel.app/)
 
 ## Entity Relationship (ER) Diagram
 This diagram provides a visual representation of the entities and their relationships within the BookMyEntertainment platform.
