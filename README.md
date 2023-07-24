@@ -1,6 +1,6 @@
 # BookYourEvent
 
-Welcome to BookMyEntertainment, your ultimate destination for hassle-free entertainment! Discover and book tickets to the hottest movies, electrifying concerts, thrilling sports events, and captivating theatrical performances, all at your fingertips. Experience the joy of seamless online ticketing and get ready to embark on unforgettable experiences with BookMyEntertainment.
+Welcome to BookYourEvent, your ultimate destination for hassle-free entertainment! Discover and book tickets to the hottest movies, electrifying concerts, thrilling sports events, and captivating theatrical performances, all at your fingertips. Experience the joy of seamless online ticketing and get ready to embark on unforgettable experiences with BookYourEvent.
 
 ## Deployed App
 
