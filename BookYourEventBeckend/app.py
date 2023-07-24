@@ -30,6 +30,60 @@ db = client['mydatabase']
 collection = db['movies']
 userCollection = db['users']
 showsCollection = db['shows']
+ordersCollection = db['orders']
+
+# Route for adding booking
+@app.route('/bookshow', methods=['POST'])
+@jwt_required()
+def add_bookshow():
+    data = request.get_json()
+    user_id = get_jwt_identity()
+    data['user_id'] = user_id
+    # print(data)
+    document = data
+    result = ordersCollection.insert_one(document)
+
+    return jsonify({'id': str(result.inserted_id)})
+
+# Route for retrieving a specific show by id
+@app.route('/bookshow', methods=['GET'])
+@jwt_required()
+def get_bookshow():
+    user_id = get_jwt_identity()
+    orders = ordersCollection.find({"user_id":user_id})
+    # Convert data to a dictionary
+
+    shows_list = []
+    print(user_id)
+    for order in orders:
+        shows_list.append({
+            'id': str(order['_id']),
+            'movie_id': str(order['movie_id']),
+            'show_id': str(order['show_id']),
+            'venue': order.get('venue', None),
+            'title': order.get('title', None),
+            'date': order.get('date', None),
+            'start_time': order.get('start_time', None),
+            'end_time': order.get('end_time', None),
+            'category': order.get('category', None),
+            'poster': order.get('poster', None),
+            'user_id': order.get('user_id', None)
+            # Add more fields as needed
+        })
+
+    return jsonify(shows_list)
+
+
+@app.route('/bookshow/<string:show_id>', methods=['DELETE'])
+# @jwt_required()
+def delete_bookshow(show_id):
+    # Delete the show with the given ID from the database
+    result = ordersCollection.delete_one({'_id': ObjectId(show_id)})
+    
+    if result.deleted_count > 0:
+        return jsonify({'message': 'bookshow data deleted successfully'})
+    else:
+        return jsonify({'message': 'No bookshow found with the provided ID'}), 404
 
 
 # Route for adding show
@@ -170,7 +224,6 @@ def delete_show(show_id):
     else:
         return jsonify({'message': 'No show found with the provided ID'}), 404
 
-
 # Route for retrieving data with pagination and filtering
 @app.route('/movies', methods=['GET'])
 # @jwt_required()
@@ -271,6 +324,26 @@ def add_data():
     result = collection.insert_one(document)
 
     return jsonify({'id': str(result.inserted_id)})
+
+# Route for adding data
+@app.route('/moviesmany', methods=['POST'])
+# @jwt_required()
+def add_many_data():
+    data = request.get_json()
+    movie_objects = data  # Assuming data is an array of movie objects
+
+    if not isinstance(movie_objects, list):
+        return jsonify({'error': 'Invalid data format. Expected an array of movie objects.'}), 400
+
+    # Validate and clean up the data (if needed) before inserting
+
+    result = collection.insert_many(movie_objects)
+
+    if result.inserted_ids:
+        return jsonify({'ids': [str(id) for id in result.inserted_ids]}), 201
+    else:
+        return jsonify({'error': 'Failed to insert data.'}), 500
+
 
 @app.route('/movies/<string:user_id>', methods=['PUT'])
 # @jwt_required()

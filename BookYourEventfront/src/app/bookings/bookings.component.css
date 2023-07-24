@@ -195,16 +195,38 @@
   }
   
 
-  .loadinNotmatch{
+  .row{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+  }
+
+  button{
+    color: red;
+    border: 1px solid red;
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+
+  .bokingAuth{
     /* border: 1px solid red; */
     width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    height: 100vh;
   }
 
-  .loadinNotmatch>p{
+  .bokingAuth>p{
      font-size: 25px;
      color: black;
+  }
+
+  .container{
+    margin-top: 20px;
   }

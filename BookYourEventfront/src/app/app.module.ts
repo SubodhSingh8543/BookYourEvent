@@ -52,6 +52,12 @@ import { ChatbotComponent } from './chatbot/chatbot.component';
 import { MoviesComponent } from './movies/movies.component';
 import { CreateShowsComponent } from './create-shows/create-shows.component';
 import { UpdateShowDialogComponent } from './update-show-dialog/update-show-dialog.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { AddMovieModalComponent } from './add-movie-modal/add-movie-modal.component';
+import { ShowsComponent } from './shows/shows.component';
+import { BookingsComponent } from './bookings/bookings.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 
 @NgModule({
@@ -70,7 +76,13 @@ import { UpdateShowDialogComponent } from './update-show-dialog/update-show-dial
     MoviesComponent,
     CreateShowsComponent,
     CreateShowsComponent,
-    UpdateShowDialogComponent
+    UpdateShowDialogComponent,
+    PaginationComponent,
+    AddMovieModalComponent,
+    ShowsComponent,
+    BookingsComponent,
+    AdminPageComponent,
+    AdminLoginComponent
   ],
   imports: [
     BrowserModule,

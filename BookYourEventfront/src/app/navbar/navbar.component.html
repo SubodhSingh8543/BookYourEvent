@@ -3,17 +3,44 @@
     <nav class="search-nav">
       <div class="main_div">
         <div class="logo">
-          <span>BookYourEvent</span>
+          <a href="/"><span>BookYourEvent</span></a>
+          
         </div>
         <div class="search-box">
-          <!-- Add your search input element here -->
-          <input type="text" placeholder="Search...">
+          <ng-container *ngIf="showEntityNavbar; else searchInput">
+            <a routerLink="/movies">
+              <input
+                type="text"
+                placeholder="Search..."
+                #searchInputBox
+                (keyup)="onSearchMovie(searchInputBox.value)"
+                [(ngModel)]="spokenText"
+              />
+              <button (click)="toggleListening()">
+                <i class="fa fa-microphone" [style.color]="micIconColor"></i>
+              </button>
+            </a>
+          </ng-container>
+          <ng-template #searchInput>
+            <input
+              type="text"
+              placeholder="Search..."
+              #searchInputBox
+              (onChange)="onSearchMovie(searchInputBox.value)"
+              [(ngModel)]="spokenText"
+            />
+            <button (click)="toggleListening()">
+              <i class="fa fa-microphone" [style.color]="micIconColor"></i>
+            </button>
+          </ng-template>
         </div>
+      
         <div class="auth-buttons">
           <!-- Add your login and signup buttons here -->
           <!-- Example: -->
           <a href="login"><button class="login-button">Log In</button></a>
          <a href="signup"><button class="signup-button">Sign Up</button></a>
+         <button (click)="deleteAccessToken()" class="logout-button">Logout</button>
         </div>
         <div class="hamburger-menu" (click)="toggleHamburgerMenu()">
           <!-- Hamburger menu icon -->
@@ -23,7 +50,7 @@
             <i class="fa fa-bars"></i>
           </div>
           <!-- Hamburger menu content -->
-          <div class="hamburger-content" *ngIf="isHamburgerMenuOpen">
+          <div class="hamburger-content" >
           </div>
         </div>
       </div>
@@ -33,7 +60,7 @@
     <nav class="entity-nav" *ngIf="showEntityNavbar">
       <div class="nav-items">
         <a routerLink="/movies" routerLinkActive="active">Movies</a>
-        <a routerLink="/myBookings" routerLinkActive="active">List your show</a>
+        <a routerLink="/booking" routerLinkActive="active">List your show</a>
         <a routerLink="/account" routerLinkActive="active">Account</a>
         <a routerLink="/offers" routerLinkActive="active">Offers</a>
         <a routerLink="/help" routerLinkActive="active">Customer support</a>

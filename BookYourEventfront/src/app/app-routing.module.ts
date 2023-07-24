@@ -11,6 +11,10 @@ import { UserListComponent } from './user-list/user-list.component';
 import { ChatbotComponent } from './chatbot/chatbot.component';
 import { MoviesComponent } from './movies/movies.component';
 import { CreateShowsComponent } from './create-shows/create-shows.component';
+import { ShowsComponent } from './shows/shows.component';
+import { BookingsComponent } from './bookings/bookings.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 const routes: Routes = [
     { path: '', component: HomePageComponent },
@@ -20,6 +24,10 @@ const routes: Routes = [
     { path: 'help', component: ChatbotComponent }, 
     { path: 'movies', component: MoviesComponent },
     { path: 'createshow', component: CreateShowsComponent },
+    { path: 'shows', component: ShowsComponent },
+    { path: 'booking', component: BookingsComponent },
+    { path: 'adminhome', component: AdminPageComponent },
+    { path: 'admin', component: AdminLoginComponent }
   ];
 
   @NgModule({
