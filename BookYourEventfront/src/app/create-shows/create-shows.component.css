@@ -1,5 +1,7 @@
 h2 {
     margin-bottom: 20px;
+    text-align: center;
+    margin-top: 20px;
 }
 
 table {
@@ -38,6 +40,7 @@ tr:hover {
     background-color: #f2f2f2;
 }
 
+
 /* Add some responsive styles to improve readability on smaller screens */
 @media (max-width: 768px) {
     table {
@@ -69,4 +72,11 @@ tr:hover {
         min-width: 60px;
         font-size: 10px;
     }
+}
+
+.openAddMovieDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px;
 }

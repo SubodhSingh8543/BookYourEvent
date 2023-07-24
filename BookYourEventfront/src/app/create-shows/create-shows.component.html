@@ -1,4 +1,9 @@
-<h2>Movies List</h2>
+<h2>Shows List</h2>
+<div class="openAddMovieDiv">
+  <button id="openAddMovie" mat-button (click)="openAddMovieDialog()">
+    Add Movie
+  </button>  
+</div>
 <table>
   <thead>
     <tr>
@@ -30,5 +35,12 @@
     </tr>
   </tbody>
 </table>
+
+
+<app-pagination
+[currentPage]="currentPage"
+[totalPages]="totalPages"
+(onPageChanged)="onPageChanged($event)"
+></app-pagination>
 
  

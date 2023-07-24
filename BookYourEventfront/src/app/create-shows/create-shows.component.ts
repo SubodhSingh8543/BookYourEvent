@@ -1,106 +1,9 @@
-// import { Component, OnInit } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
-// import { MatDialog } from '@angular/material/dialog';
-// import { UpdateUserDialogComponent,Show } from '../update-user-dialog/update-user-dialog.component';
-
-// export interface Movies  {
-//   description: string,
-//   duration: string,
-//   genre: string,
-//   id: string,
-//   language: string,
-//   poster: string,
-//   releaseDate: string,
-//   title: string,
-// }
-
-// // {
-// //   "description": "Very nice",
-// //   "duration": "2:30",
-// //   "genre": "Hollywood",
-// //   "id": "64b6b437327e759a59b35e88",
-// //   "language": "English",
-// //   "poster": "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@star-icon-202203010609.png,ox-24,oy-615,ow-29:ote-OS40LzEwICAxLjVLIFZvdGVz,ots-29,otc-FFFFFF,oy-612,ox-70:q-80/et00004883-emknagcqew-portrait.jpg",
-// //   "releaseDate": "07/07/2017",
-// //   "title": "abcdefgh"
-// // }
-
-// @Component({
-//   selector: 'app-create-shows',
-//   templateUrl: './create-shows.component.html',
-//   styleUrls: ['./create-shows.component.css']
-// })
-// export class CreateShowsComponent implements OnInit {
-//   users: Movies[] = [];
-
-//   constructor(private http: HttpClient, private dialog: MatDialog) {}
-
-
-//   ngOnInit() {
-//     this.fetchUsers();
-//   }
-
-//   fetchUsers() {
-//     this.http.get<Movies[]>('http://localhost:11000/movies').subscribe(
-//       (data) => {
-//         this.users = data;
-//       },
-//       (error) => {
-//         console.error('Error fetching users:', error);
-//       }
-//     );
-//   }
-
-//   deleteUser(userId: string) {
-//   //   if (confirm('Are you sure you want to delete this user?')) {
-//   //     // Make API call to delete user with given ID
-//   //     this.http.delete(`http://localhost:11000/shows/${userId}`).subscribe(
-//   //       () => {
-//   //         // Update the list of users after successful deletion
-//   //         this.users = this.users.filter((user) => user.id !== userId);
-//   //         alert('User deleted successfully!');
-//   //       },
-//   //       (error) => {
-//   //         console.error('Error deleting user:', error);
-//   //       }
-//   //     );
-//   //   }
-//   }
-
-//   openUpdateDialog(user: Movies): void {
-//   //   const dialogRef = this.dialog.open(UpdateUserDialogComponent, {
-//   //     width: '400px',
-//   //     data: user
-//   //   });
-  
-//   //   dialogRef.afterClosed().subscribe((result: User) => {
-//   //     if (result) {
-//   //       // Perform update operation or update the user in the list
-//   //       const index = this.users.findIndex(u => u.id === result.id);
-//   //       if (index !== -1) {
-//   //         this.users[index] = result;
-//   //         // Perform API call to update user data
-//   //         this.http.put(`http://localhost:11000/users/${result.id}`, result).subscribe(
-//   //           () => {
-//   //             // Update successful
-//   //             alert('User updated successfully!');
-//   //           },
-//   //           (error) => {
-//   //             console.error('Error updating user:', error);
-//   //           }
-//   //         );
-//   //       }
-//   //     }
-//   //   });
-//   }
-// }
-
-
-
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateShowDialogComponent, Show } from '../update-show-dialog/update-show-dialog.component';
+import { AddMovieModalComponent } from '../add-movie-modal/add-movie-modal.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export interface Movies  {
   description: string,
@@ -120,26 +23,40 @@ export interface Movies  {
 })
 export class CreateShowsComponent implements OnInit {
   users: Movies[] = [];
+  currentPage: number = 1;
+  totalPages: number = 10;
+  itemsPerPage: number = 12;
+  isMoviesRoute: boolean = false;
 
-  constructor(private http: HttpClient, private dialog: MatDialog) {}
+  constructor(private http: HttpClient, private dialog: MatDialog,private router: Router, private route: ActivatedRoute ) {}
 
-  ngOnInit() {
-    this.fetchUsers();
-  }
+  // ngOnInit() {
+  //   this.fetchUsers();
+  // }
 
-  fetchUsers() {
-    this.http.get<Movies[]>('http://localhost:11000/movies').subscribe(
-      (data) => {
-        this.users = data;
-      },
-      (error) => {
-        console.error('Error fetching users:', error);
-      }
-    );
-  }
+  // fetchUsers() {
+  //   this.http.get<Movies[]>('https://bookevent.onrender.com/movies').subscribe(
+  //     (data) => {
+  //       this.users = data;
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching users:', error);
+  //     }
+  //   );
+  // }
 
   deleteUser(userId: string) {
-    // Delete user logic (if needed)
+    const apiUrl = `https://bookevent.onrender.com/movies/${userId}`;
+
+    this.http.delete(apiUrl).subscribe(
+      () => {
+        this.users = this.users.filter((users) => users.id !== userId);
+        alert("movie deleted successfully")
+      },
+      (error) => {
+        console.error('Error deleting booking:', error);
+      }
+    );
   }
 
   openUpdateDialog(movie: Movies) {
@@ -164,17 +81,66 @@ export class CreateShowsComponent implements OnInit {
       if (updatedShow) {
         // Perform the POST request with the updatedShow object
         // Use the HttpClient to make the POST request
-        this.http.post('http://localhost:11000/shows', updatedShow).subscribe(
+        this.http.post('https://bookevent.onrender.com/shows', updatedShow).subscribe(
           () => {
             // Handle successful response (if needed)
-            alert('Show updated successfully!');
+            alert('Show created successfully!');
           },
           (error) => {
+            alert('failed to create show!');
             console.error('Error updating show:', error);
           }
         );
       }
     });
   }
+
+  ngOnInit(): void {
+    this.isMoviesRoute = this.route.snapshot.url[0].path === 'createshow';
+    this.route.queryParams.subscribe((queryParams) => {
+      const title = queryParams['title'] || '';
+      this.currentPage = parseInt(queryParams['page']) || 1;
+      this.fetchUsers(title);
+    });
+  }
+
+  fetchUsers(title: string): void {
+    const apiUrl = `https://bookevent.onrender.com/movies?page=${this.currentPage}&page_size=${this.itemsPerPage}&title=${title}`;
+    this.http.get<Movies[]>(apiUrl).subscribe(
+      (response) => {
+        this.users = response;
+      },
+      (error: any) => {
+        console.error('Error fetching movies data:', error);
+      }
+    );
+  }
+
+  openAddMovieDialog() {
+    const dialogRef = this.dialog.open(AddMovieModalComponent, {
+      width: '500px',
+      data: {},
+    });
   
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+      // You can perform actions after the dialog is closed here
+    });
+  }
+  
+  onPageChanged(newPage: number): void {
+    if (newPage >= 1 && newPage <= this.totalPages) {
+      this.currentPage = newPage;
+      this.updateUrlParams();
+    }
+  }
+
+  updateUrlParams() {
+    const queryParams = { page: this.currentPage };
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: queryParams,
+      queryParamsHandling: 'merge'
+    });
+  }
 }
